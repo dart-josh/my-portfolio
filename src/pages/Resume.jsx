@@ -1,5 +1,5 @@
 import { Circle } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   FaReact,
   FaHtml5,
@@ -167,23 +167,35 @@ const Resume = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [showRaw, setShowRaw] = useState(false);
 
+  const contentRef = useRef(null);
+
   const tabs = [
-    <ExperienceTab key="experience" />,
-    <EducationTab key="education" />,
-    <SkillTab key="skill" showRaw={showRaw} setShowRaw={setShowRaw} />,
-    <AboutTab key="about" />,
+    <ExperienceTab key="experience" ref={contentRef} />,
+    <EducationTab key="education" ref={contentRef} />,
+    <SkillTab
+      key="skill"
+      showRaw={showRaw}
+      setShowRaw={setShowRaw}
+      ref={contentRef}
+    />,
+    <AboutTab key="about" ref={contentRef} />,
   ];
 
   return (
     <div className="flex flex-col lg:flex-row gap-20 w-full">
       {/* selector */}
-      <Selector activeTab={activeTab} setActiveTab={setActiveTab} showRaw={showRaw} />
+      <Selector
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        showRaw={showRaw}
+        contentRef={contentRef}
+      />
 
       {/* content */}
       <div className="w-full">
         <AnimatePresence mode="wait">
           <motion.div
-            key={`${activeTab} ${showRaw ? 'label' : 'icon'}`}
+            key={`${activeTab} ${showRaw ? "label" : "icon"}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -199,11 +211,11 @@ const Resume = () => {
 };
 
 // selector
-const Selector = ({ activeTab, setActiveTab, showRaw }) => {
+const Selector = ({ activeTab, setActiveTab, showRaw, contentRef }) => {
   return (
     <AnimatePresence mode="wait">
       <motion.div
-        key={`${activeTab} ${showRaw ? 'label' : 'icon'}`}
+        key={`${activeTab} ${showRaw ? "label" : "icon"}`}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 20 }}
@@ -214,7 +226,10 @@ const Selector = ({ activeTab, setActiveTab, showRaw }) => {
           <div className="space-y-6">
             <div className="text-4xl md:text-5xl text-white">Why hire me?</div>
             <div className="text-white/60">
-              I bring a strong blend of technical skill, creativity, and reliability. From frontend polish to backend performance, I build clean, scalable solutions that deliver real value—on time and with attention to detail.
+              I bring a strong blend of technical skill, creativity, and
+              reliability. From frontend polish to backend performance, I build
+              clean, scalable solutions that deliver real value—on time and with
+              attention to detail.
             </div>
           </div>
 
@@ -222,7 +237,13 @@ const Selector = ({ activeTab, setActiveTab, showRaw }) => {
             {["Experience", "Education", "Skills", "About me"].map(
               (tile, i) => (
                 <div
-                  onClick={() => setActiveTab(i)}
+                  onClick={() => {
+                    setActiveTab(i);
+                    contentRef.current.scrollIntoView({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                  }}
                   key={i}
                   className={`w-full h-[40px] flex items-center justify-center   hover:text-black cursor-pointer font-semibold hover:bg-teal-500 transition duration-300 rounded ${activeTab === i ? "bg-teal-500 text-black" : "text-white bg-gray-700"}`}
                 >
@@ -238,14 +259,21 @@ const Selector = ({ activeTab, setActiveTab, showRaw }) => {
 };
 
 // experience
-const ExperienceTab = () => {
+const ExperienceTab = ({ ref }) => {
   return (
-    <div className="w-full space-y-10">
+    <div className="w-full space-y-10 pt-[85px] lg:pt-0" ref={ref}>
       {/* title */}
       <div className="space-y-6">
         <div className="text-4xl md:text-5xl text-white">My experience</div>
         <div className="text-white/60">
-          Over the years, I’ve worked on a wide range of projects—both independently and in collaboration with teams—delivering functional, user-focused solutions across web and mobile platforms. My experience spans from building dynamic user interfaces and scalable backend systems to integrating APIs, managing databases, and deploying fullstack applications. Each project has strengthened my problem-solving skills and deepened my understanding of modern development workflows.
+          Over the years, I’ve worked on a wide range of projects—both
+          independently and in collaboration with teams—delivering functional,
+          user-focused solutions across web and mobile platforms. My experience
+          spans from building dynamic user interfaces and scalable backend
+          systems to integrating APIs, managing databases, and deploying
+          fullstack applications. Each project has strengthened my
+          problem-solving skills and deepened my understanding of modern
+          development workflows.
         </div>
       </div>
 
@@ -287,14 +315,18 @@ const ExperienceTab = () => {
 };
 
 // education
-const EducationTab = () => {
+const EducationTab = ({ ref }) => {
   return (
-    <div className="w-full space-y-10">
+    <div className="w-full space-y-10 pt-[85px] lg:pt-0" ref={ref}>
       {/* title */}
       <div className="space-y-6">
         <div className="text-4xl md:text-5xl text-white">My Educataion</div>
         <div className="text-white/60">
-          Although I'm a self-taught developer, I’ve invested countless hours into learning through hands-on projects, online courses, documentation, and real-world problem-solving. My approach to learning is practical and continuous, allowing me to stay up-to-date with the latest tools and best practices in software development.
+          Although I'm a self-taught developer, I’ve invested countless hours
+          into learning through hands-on projects, online courses,
+          documentation, and real-world problem-solving. My approach to learning
+          is practical and continuous, allowing me to stay up-to-date with the
+          latest tools and best practices in software development.
         </div>
       </div>
 
@@ -336,17 +368,19 @@ const EducationTab = () => {
 };
 
 // skills
-const SkillTab = ({showRaw, setShowRaw}) => {
-  
-
+const SkillTab = ({ showRaw, setShowRaw, ref }) => {
   return (
-    <div className="w-full space-y-10">
+    <div className="w-full space-y-10 pt-[85px] lg:pt-0" ref={ref}>
       {/* title */}
       <div className="space-y-6">
         <div className="text-4xl md:text-5xl text-white">My skills</div>
         <div className="text-white/60">
-          I specialize in building fullstack web and mobile applications using modern technologies and frameworks. With experience across frontend, backend, and database systems, I’m able to craft scalable, high-performance solutions tailored for real-world use.
-          <br /><br/>
+          I specialize in building fullstack web and mobile applications using
+          modern technologies and frameworks. With experience across frontend,
+          backend, and database systems, I’m able to craft scalable,
+          high-performance solutions tailored for real-world use.
+          <br />
+          <br />
           Below are some of the technologies I’ve mastered:
         </div>
       </div>
@@ -390,16 +424,21 @@ const SkillTab = ({showRaw, setShowRaw}) => {
 };
 
 // about
-const AboutTab = () => {
+const AboutTab = ({ ref }) => {
   return (
-    <div className="w-full space-y-10">
+    <div className="w-full space-y-10 pt-[85px] lg:pt-0" ref={ref}>
       {/* title */}
       <div className="space-y-6">
         <div className="text-4xl md:text-5xl text-white">About me</div>
         <div className="text-white/60">
-          I'm a self-taught fullstack developer passionate about building responsive, user-friendly, and visually appealing software. I take pride in writing clean, maintainable code and turning ideas into polished digital experiences.
-          <br /><br />
-          When I'm not coding, I'm usually exploring new technologies, sharpening my skills, or experimenting with something creative.
+          I'm a self-taught fullstack developer passionate about building
+          responsive, user-friendly, and visually appealing software. I take
+          pride in writing clean, maintainable code and turning ideas into
+          polished digital experiences.
+          <br />
+          <br />
+          When I'm not coding, I'm usually exploring new technologies,
+          sharpening my skills, or experimenting with something creative.
         </div>
       </div>
 

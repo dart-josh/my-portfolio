@@ -134,7 +134,7 @@ const Image = () => {
             duration: 7,
             repeat: Infinity,
             repeatType: "reverse",
-            delay: 2,
+            delay: 0.4,
           }}
         ></motion.circle>
       </motion.svg>

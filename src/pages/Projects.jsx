@@ -127,23 +127,31 @@ const Projects = () => {
   const next = () =>
     setCurrent((prev) => (prev === projects.length - 1 ? 0 : prev + 1));
 
+  const handlers = useSwipeable({
+    onSwipedLeft: next,
+    onSwipedRight: prev,
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true,
+  });
+
   return (
     <div className="flex flex-col lg:flex-row gap-y-3 gap-x-10 w-full items-center pb-10">
       <div className="w-full order-1 lg:order-none">
-        <ProjectDetails project={projects[current]} />
+        <ProjectDetails project={projects[current]} handlers={handlers} />
       </div>
 
       <div className="w-full">
-        <ImageSlider project={projects[current]} next={next} prev={prev} />
+        <ImageSlider project={projects[current]} next={next} prev={prev}/>
       </div>
     </div>
   );
 };
 
-const ProjectDetails = ({ project }) => {
+const ProjectDetails = ({ project, handlers }) => {
   return (
     <AnimatePresence mode="wait">
       <motion.div
+      {...handlers}
         key={project.id}
         className="space-y-6 w-full"
         initial={{ opacity: 0, y: 100 }}
@@ -165,7 +173,7 @@ const ProjectDetails = ({ project }) => {
               key={i}
               className="hover:underline transition-all duration-500"
             >
-              {stac} {(i + 1 !== project.statck.length) && ','}
+              {stac}{(i + 1 !== project.statck.length) && ','}
             </span>
           ))}
         </div>
