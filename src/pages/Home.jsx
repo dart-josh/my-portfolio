@@ -12,7 +12,7 @@ const profile = [
   { title: "Code commits", value: "500" },
 ];
 
-const cv_link = 'https://drive.google.com/file/d/1fX-zEY4-JPJ9r8sDq99sgF-Kald7PaWN/view?usp=drive_link';
+const cv_link = 'https://drive.google.com/file/d/1DgYYgpeA_95XeZzwrmlLi3Af0ajzOFOi/view?usp=sharing';
 const github_link = 'https://github.com/dart-josh';
 const linkedin_link = 'https://www.linkedin.com/in/adelooye-joshua-3b66b1159';
 const youtube_link = '';
