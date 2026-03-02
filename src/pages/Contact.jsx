@@ -80,9 +80,9 @@ const ContactForm = () => {
       </div>
 
       <div className="text-white/60 text-sm">
-        Lorem ipsium dolor sit met, constructor aduuyue skill.
+       Use the form  below to contact me directly
         <br />
-        Recieprnt eh sile esum comabde.
+        Fill out all fields.
       </div>
 
       <form onSubmit={submitForm} className="space-y-4">
